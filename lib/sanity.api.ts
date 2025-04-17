@@ -6,17 +6,18 @@ export const useCdn = false
  */
 
 export const dataset = assertValue(
-  // 'production',
-  process.env.NEXT_PUBLIC_SANITY_DATASET,
+  'production',
+  // process.env.NEXT_PUBLIC_SANITY_DATASET,
   'Missing environment variable: NEXT_PUBLIC_SANITY_DATASET',
 )
 
 export const projectId = assertValue(
-  process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
+  '8bvk61rm',
+  // process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
   'Missing environment variable: NEXT_PUBLIC_SANITY_PROJECT_ID',
 )
 
-export const readToken = process.env.SANITY_API_READ_TOKEN || 'skIkLUXNlzpcgQQWKXCXhDb3kegoWtW5PEJBszO11dVmRJu23ukuAUe16I05OM6ZITD6iOmQZxBnOS5Pmgf1R8UG5sRjnqYqQd9AtWpHMvKL6Q4kTc1Nh4Ux8p1hxv8eIaoJGz9MmoCbGvFnXmFFfEfp28q8kvGAW59eLKuLUfzoG7A9PtTu'
+export const readToken = process.env.SANITY_API_READ_TOKEN || 'skVIcwLjZNu0cvz8xTJxo9pwlQTUwU2o1Ct6awAhVxky2sbMjE4jiRW4SO2iHP2LR5ipC32l5NTwLyQSTkE5KAjh42wDqZQkbPcOkHcCq6AKvks2DsRHffzqu8iFqTqx1Ee5WsuXXcGglib2b312O1fo0POKMcKbCjfboUSqKCQQU4xdkTJr'
 
 // see https://www.sanity.io/docs/api-versioning for how versioning works
 export const apiVersion =

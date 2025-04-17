@@ -4,7 +4,7 @@ import {
   projectId,
   readToken,
   useCdn,
-} from 'lib/sanity.api'
+} from './sanity.api'
 import { createClient, type SanityClient } from 'next-sanity'
 
 export function getClient(previewDrafts?: boolean): SanityClient {
