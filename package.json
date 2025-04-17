@@ -1,0 +1,60 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "next build",
+    "dev": "next",
+    "format": "npx prettier --write . --ignore-path .gitignore",
+    "lint": "next lint -- --ignore-path .gitignore",
+    "lint:fix": "npm run format && npm run lint -- --fix",
+    "start": "next start",
+    "type-check": "tsc --noEmit"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true
+  },
+  "dependencies": {
+    "@mux/mux-player": "^3.2.4",
+    "@portabletext/react": "3.0.9",
+    "@sanity/client": "^6.12.1",
+    "@sanity/demo": "1.0.2",
+    "@sanity/image-url": "^1.1.0",
+    "@sanity/vision": "^3.81.0",
+    "@smakss/react-scroll-direction": "^4.2.0",
+    "@tailwindcss/typography": "0.5.10",
+    "@vercel/og": "0.5.17",
+    "classnames": "2.3.2",
+    "date-fns": "2.30.0",
+    "embla-carousel-react": "^8.5.1",
+    "intl-segmenter-polyfill": "0.4.4",
+    "klaviyo-subscribe": "^1.0.0",
+    "motion": "^11.16.0",
+    "next": "^13.5.4",
+    "next-sanity": "^9.9.6",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-is": "18.2.0",
+    "react-select": "^5.9.0",
+    "sanity": "^3.81.0",
+    "sanity-plugin-asset-source-unsplash": "1.1.1",
+    "sanity-plugin-iframe-pane": "2.5.7",
+    "sanity-plugin-media": "^2.3.2",
+    "sanity-plugin-mux-input": "^2.4.0",
+    "sanity-plugin-simpler-color-input": "^3.0.0",
+    "sanity-plugin-vercel-deploy": "^3.3.4",
+    "styled-components": "^6.1.16"
+  },
+  "devDependencies": {
+    "@types/react": "18.2.25",
+    "autoprefixer": "10.4.16",
+    "eslint": "8.50.0",
+    "eslint-config-next": "13.5.4",
+    "eslint-plugin-simple-import-sort": "10.0.0",
+    "postcss": "8.4.31",
+    "prettier": "3.0.3",
+    "prettier-plugin-packagejson": "2.4.6",
+    "prettier-plugin-tailwindcss": "0.5.5",
+    "tailwindcss": "3.3.3",
+    "typescript": "5.2.2"
+  }
+}
