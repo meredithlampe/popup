@@ -79,6 +79,7 @@ export default defineConfig({
               S.documentTypeListItem('page').title('Pages'),
               S.divider(),
               S.documentTypeListItem('discover').title('Discover'),
+              S.documentTypeListItem('artIndex').title('Art Index'),
               S.divider(),
               S.documentTypeListItem('productType').title('Product Types'),
               S.divider(),

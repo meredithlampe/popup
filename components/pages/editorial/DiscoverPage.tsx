@@ -41,12 +41,12 @@ export function DiscoverPage({
 
             {/* editorial grid */}
             <EditorialGrid
-              defaultSort={page.featured.length > 0 ? 'featured' : 'newest'}
+              defaultSort={page.featured?.length > 0 ? 'featured' : 'newest'}
               gridDisruptors={page.gridDisruptors}
               featured={page.featured}
             />
           </div>
-          {page.sections && page.sections.length > 0 && (
+          {page.sections && page.sections?.length > 0 && (
             <div className="flex flex-col">
               {page.sections.map((section, key) => (
                 <Section

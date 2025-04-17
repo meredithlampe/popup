@@ -77,11 +77,11 @@ export function ProductGrid({
   const [filterSelected, setFilterSelected] = useState(false)
   useEffect(() => {
     setFilterSelected(
-      (selectedArtistFilters && selectedArtistFilters.length > 0) ||
-        (selectedTypeFilters && selectedTypeFilters.length > 0) ||
-        (selectedTopicFilters && selectedTopicFilters.length > 0) ||
-        (selectedPriceFilters && selectedPriceFilters.length > 0) ||
-        (selectedSizeFilters && selectedSizeFilters.length > 0),
+      (selectedArtistFilters && selectedArtistFilters?.length > 0) ||
+        (selectedTypeFilters && selectedTypeFilters?.length > 0) ||
+        (selectedTopicFilters && selectedTopicFilters?.length > 0) ||
+        (selectedPriceFilters && selectedPriceFilters?.length > 0) ||
+        (selectedSizeFilters && selectedSizeFilters?.length > 0),
     )
   }, [
     selectedArtistFilters,
@@ -217,11 +217,11 @@ export function ProductGrid({
             setPage(1)
           }}
           value={
-            featured.length > 0
+            featured?.length > 0
               ? SORTS.find((x) => x.value == sort)
               : SORTS_WITHOUT_FEATURED.find((x) => x.value == sort)
           }
-          options={featured.length > 0 ? SORTS : SORTS_WITHOUT_FEATURED}
+          options={featured?.length > 0 ? SORTS : SORTS_WITHOUT_FEATURED}
         />
       </div>
 

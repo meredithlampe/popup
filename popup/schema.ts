@@ -28,12 +28,14 @@ import settings from './schemas/singletons/settings'
 import editorial from './schemas/documents/editorial'
 import editorialType from './schemas/documents/editorial-type'
 import discover from './schemas/singletons/discover'
+import artIndex from './schemas/singletons/art-index'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
     product,
     editorial,
     discover,
+    artIndex,
     editorialType,
     page,
     home,

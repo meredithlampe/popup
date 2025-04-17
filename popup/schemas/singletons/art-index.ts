@@ -1,6 +1,6 @@
 import { DashboardIcon } from '@sanity/icons'
 import {  defineArrayMember, defineField, defineType } from 'sanity'
-import { ALL_SECTION_TYPES } from 'schemas/utils'
+import { ALL_SECTION_TYPES } from '../utils'
 
 export default defineType({
   name: 'artIndex',
