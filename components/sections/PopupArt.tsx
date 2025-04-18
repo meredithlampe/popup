@@ -5,10 +5,7 @@ interface Popup {
   id: number
   x: number
   y: number
-  closeType: 'drag' | 'rotate' | 'doubleClick' | 'hold'
-  currentRotation?: number
-  startAngle?: number
-  rotationThreshold?: number
+  closeType: 'drag' | 'rotate'
   dragDistance?: number
   dragThreshold?: number
 }
@@ -30,12 +27,9 @@ export default function PopupArt({ data }: PopupArtProps) {
         id: counter,
         x: Math.random() * (window.innerWidth - 300),
         y: Math.random() * (window.innerHeight - 200),
-        closeType: ['drag', 'rotate', 'doubleClick', 'hold'][
-          Math.floor(Math.random() * 4)
+        closeType: ['drag', 'rotate'][
+          Math.floor(Math.random() * 2)
         ] as Popup['closeType'],
-        currentRotation: 0,
-        startAngle: 0,
-        rotationThreshold: Math.floor(Math.random() * 90) + 90, // Random number between 90 and 180 degrees
         dragDistance: 0,
         dragThreshold: Math.floor(Math.random() * 200) + 100, // Random number between 100 and 300 pixels
       }
@@ -51,19 +45,26 @@ export default function PopupArt({ data }: PopupArtProps) {
   }
 
   const updateRotation = (id: number, angle: number, startAngle: number) => {
-    // Calculate the total rotation from the start angle
-    let totalRotation = Math.abs(angle - startAngle)
-    // Normalize to 0-360 range
-    totalRotation = totalRotation % 360
-    // Take the shortest path (e.g., 270° is the same as -90°)
-    if (totalRotation > 180) {
-      totalRotation = 360 - totalRotation
-    }
-
     setPopups((prev) =>
-      prev.map((popup) =>
-        popup.id === id ? { ...popup, currentRotation: totalRotation } : popup,
-      ),
+      prev.map((popup) => {
+        if (popup.id !== id) return popup
+
+        // Calculate the change in angle
+        let deltaAngle = angle - startAngle
+
+        // Normalize the delta to be between -180 and 180
+        if (deltaAngle > 180) deltaAngle -= 360
+        if (deltaAngle < -180) deltaAngle += 360
+
+        // Update the element's rotation
+        const newRotation = popup.elementRotation + deltaAngle
+
+        return {
+          ...popup,
+          elementRotation: newRotation,
+          startAngle: angle, // Update start angle for next movement
+        }
+      }),
     )
   }
 
@@ -108,9 +109,6 @@ export default function PopupArt({ data }: PopupArtProps) {
           }
           onTouchStart={(e) => {
             e.preventDefault()
-            if (popup.closeType === 'hold') {
-              setTimeout(() => handleClose(popup.id), 2000)
-            }
           }}
           onTouchMove={(e) => {
             e.preventDefault()
@@ -131,14 +129,6 @@ export default function PopupArt({ data }: PopupArtProps) {
               const startAngle =
                 Math.atan2(event.clientY - centerY, event.clientX - centerX) *
                 (180 / Math.PI)
-              const currentRotation = popup.currentRotation || 0
-
-              // Update the popup with the start angle
-              setPopups((prev) =>
-                prev.map((p) =>
-                  p.id === popup.id ? { ...p, startAngle, currentRotation } : p,
-                ),
-              )
 
               const handleMouseMove = (moveEvent: MouseEvent) => {
                 if (!element.isConnected) {
@@ -156,9 +146,7 @@ export default function PopupArt({ data }: PopupArtProps) {
                     moveEvent.clientX - centerX,
                   ) *
                   (180 / Math.PI)
-                const rotation = currentRotation + (angle - startAngle)
-                element.style.transform = `rotate(${rotation}deg)`
-                updateRotation(popup.id, rotation, startAngle)
+                element.style.transform = `rotate(${angle}deg)`
               }
 
               const handleMouseUp = (upEvent: MouseEvent) => {
@@ -177,11 +165,8 @@ export default function PopupArt({ data }: PopupArtProps) {
                     upEvent.clientX - centerX,
                   ) *
                   (180 / Math.PI)
-                const totalRotation = Math.abs(
-                  currentRotation + (angle - startAngle),
-                )
-
-                if (totalRotation >= (popup.rotationThreshold || 180)) {
+                const totalRotation = Math.abs(angle - startAngle)
+                if (totalRotation >= 180) {
                   handleClose(popup.id)
                 }
                 document.removeEventListener('mousemove', handleMouseMove)
@@ -203,14 +188,6 @@ export default function PopupArt({ data }: PopupArtProps) {
               const startAngle =
                 Math.atan2(touch.clientY - centerY, touch.clientX - centerX) *
                 (180 / Math.PI)
-              const currentRotation = popup.currentRotation || 0
-
-              // Update the popup with the start angle
-              setPopups((prev) =>
-                prev.map((p) =>
-                  p.id === popup.id ? { ...p, startAngle, currentRotation } : p,
-                ),
-              )
 
               const handleTouchMove = (moveEvent: TouchEvent) => {
                 if (!element.isConnected) {
@@ -226,9 +203,7 @@ export default function PopupArt({ data }: PopupArtProps) {
                 const angle =
                   Math.atan2(touch.clientY - centerY, touch.clientX - centerX) *
                   (180 / Math.PI)
-                const rotation = currentRotation + (angle - startAngle)
-                element.style.transform = `rotate(${rotation}deg)`
-                updateRotation(popup.id, rotation, startAngle)
+                element.style.transform = `rotate(${angle}deg)`
               }
 
               const handleTouchEnd = (endEvent: TouchEvent) => {
@@ -245,11 +220,8 @@ export default function PopupArt({ data }: PopupArtProps) {
                 const angle =
                   Math.atan2(touch.clientY - centerY, touch.clientX - centerX) *
                   (180 / Math.PI)
-                const totalRotation = Math.abs(
-                  currentRotation + (angle - startAngle),
-                )
-
-                if (totalRotation >= (popup.rotationThreshold || 180)) {
+                const totalRotation = Math.abs(angle - startAngle)
+                if (totalRotation >= 180) {
                   handleClose(popup.id)
                 }
                 document.removeEventListener('touchmove', handleTouchMove)
@@ -273,14 +245,9 @@ export default function PopupArt({ data }: PopupArtProps) {
               )}
               {popup.closeType === 'rotate' && (
                 <>
-                  <div>Rotate me {popup.rotationThreshold}° to close</div>
-                  <div className="text-sm mt-2">
-                    Current rotation: {Math.round(popup.currentRotation || 0)}°
-                  </div>
+                  <div>Rotate me 180° to close</div>
                 </>
               )}
-              {popup.closeType === 'doubleClick' && 'Double click to close'}
-              {popup.closeType === 'hold' && 'Hold for 2 seconds to close'}
             </p>
           </div>
         </motion.div>
