@@ -205,8 +205,8 @@ export function EditorialGrid({
   const [filterSelected, setFilterSelected] = useState(false)
   useEffect(() => {
     setFilterSelected(
-      (selectedTypeFiters != undefined && selectedTypeFiters.length > 0) ||
-        (selectedTopicFilters != undefined && selectedTopicFilters.length > 0),
+      (selectedTypeFiters != undefined && selectedTypeFiters?.length > 0) ||
+        (selectedTopicFilters != undefined && selectedTopicFilters?.length > 0),
     )
   }, [selectedTopicFilters, selectedTypeFiters])
   useEffect(() => {
@@ -230,7 +230,7 @@ export function EditorialGrid({
             setPage(1)
           }}
           value={SORTS.find((x) => x.value == sort)}
-          options={featured.length > 0 ? SORTS : SORTS_WITHOUT_FEATURED}
+          options={featured?.length > 0 ? SORTS : SORTS_WITHOUT_FEATURED}
         />
       </div>
 
