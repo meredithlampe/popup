@@ -44,15 +44,6 @@ export default function Layout({
       {/* {preview ? (
         <PreviewNavbar settings={settings} />
       ) : ( */}
-      <Navbar
-        menuItems={settings?.menuItems}
-        logo={settings.logo}
-        settings={settings}
-        mobileMenuOpen={mobileMenuOpen}
-        setMobileMenuOpen={(open) => {
-          setMobileMenuOpen(open)
-        }}
-      />
       {/* )} */}
       <div className="flex-grow min-h-[100vh]">{children}</div>
       <Footer

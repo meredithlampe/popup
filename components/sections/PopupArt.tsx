@@ -68,11 +68,11 @@ export default function PopupArt({ data }: PopupArtProps) {
   }
 
   return (
-    <div className="relative w-full h-screen overflow-hidden bg-black">
+    <div className="relative w-full h-screen overflow-hidden bg-black touch-none">
       {popups.map((popup) => (
         <motion.div
           key={popup.id}
-          className="absolute p-4 bg-white rounded-lg shadow-lg cursor-pointer select-none"
+          className="absolute p-4 bg-white rounded-lg shadow-lg cursor-pointer select-none touch-none"
           style={{ left: popup.x, top: popup.y }}
           drag={popup.closeType === 'drag'}
           dragConstraints={{
@@ -106,10 +106,17 @@ export default function PopupArt({ data }: PopupArtProps) {
           onDoubleClick={() =>
             popup.closeType === 'doubleClick' && handleClose(popup.id)
           }
-          onMouseDown={() => {
+          onTouchStart={(e) => {
+            e.preventDefault()
             if (popup.closeType === 'hold') {
               setTimeout(() => handleClose(popup.id), 2000)
             }
+          }}
+          onTouchMove={(e) => {
+            e.preventDefault()
+          }}
+          onTouchEnd={(e) => {
+            e.preventDefault()
           }}
           {...(popup.closeType === 'rotate' && {
             drag: false,
@@ -183,6 +190,74 @@ export default function PopupArt({ data }: PopupArtProps) {
 
               document.addEventListener('mousemove', handleMouseMove)
               document.addEventListener('mouseup', handleMouseUp)
+            },
+            onTouchStart: (event) => {
+              event.preventDefault()
+              const element = event.currentTarget
+              if (!element) return
+
+              const rect = element.getBoundingClientRect()
+              const centerX = rect.left + rect.width / 2
+              const centerY = rect.top + rect.height / 2
+              const touch = event.touches[0]
+              const startAngle =
+                Math.atan2(touch.clientY - centerY, touch.clientX - centerX) *
+                (180 / Math.PI)
+              const currentRotation = popup.currentRotation || 0
+
+              // Update the popup with the start angle
+              setPopups((prev) =>
+                prev.map((p) =>
+                  p.id === popup.id ? { ...p, startAngle, currentRotation } : p,
+                ),
+              )
+
+              const handleTouchMove = (moveEvent: TouchEvent) => {
+                if (!element.isConnected) {
+                  document.removeEventListener('touchmove', handleTouchMove)
+                  document.removeEventListener('touchend', handleTouchEnd)
+                  return
+                }
+
+                const rect = element.getBoundingClientRect()
+                const centerX = rect.left + rect.width / 2
+                const centerY = rect.top + rect.height / 2
+                const touch = moveEvent.touches[0]
+                const angle =
+                  Math.atan2(touch.clientY - centerY, touch.clientX - centerX) *
+                  (180 / Math.PI)
+                const rotation = currentRotation + (angle - startAngle)
+                element.style.transform = `rotate(${rotation}deg)`
+                updateRotation(popup.id, rotation, startAngle)
+              }
+
+              const handleTouchEnd = (endEvent: TouchEvent) => {
+                if (!element.isConnected) {
+                  document.removeEventListener('touchmove', handleTouchMove)
+                  document.removeEventListener('touchend', handleTouchEnd)
+                  return
+                }
+
+                const rect = element.getBoundingClientRect()
+                const centerX = rect.left + rect.width / 2
+                const centerY = rect.top + rect.height / 2
+                const touch = endEvent.changedTouches[0]
+                const angle =
+                  Math.atan2(touch.clientY - centerY, touch.clientX - centerX) *
+                  (180 / Math.PI)
+                const totalRotation = Math.abs(
+                  currentRotation + (angle - startAngle),
+                )
+
+                if (totalRotation >= (popup.rotationThreshold || 180)) {
+                  handleClose(popup.id)
+                }
+                document.removeEventListener('touchmove', handleTouchMove)
+                document.removeEventListener('touchend', handleTouchEnd)
+              }
+
+              document.addEventListener('touchmove', handleTouchMove)
+              document.addEventListener('touchend', handleTouchEnd)
             },
           })}
         >
