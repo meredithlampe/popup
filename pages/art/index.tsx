@@ -1,4 +1,4 @@
-import { ArtIndexPage } from 'components/pages/home/ArtIndex'
+import { ArtIndexPage } from 'components/pages/home/ProductIndex'
 import { getClient } from 'lib/sanity.client'
 import {
   artIndexQuery,

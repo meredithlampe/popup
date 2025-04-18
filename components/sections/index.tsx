@@ -7,6 +7,7 @@ import Carousel from './Carousel'
 import CarouselTwoUp from './CarouselTwoUp'
 import { EmailSubscribe } from './EmailSubscribe'
 import { FlippedText } from './flipped-text'
+import PopupArt from './PopupArt'
 import Quote from './Quote'
 import { TextAndImage } from './TextAndImage'
 import { VideoAndText } from './VideoAndText'
@@ -86,6 +87,12 @@ export const Section = ({ index, section, settings }) => {
             // for now, assume editorial.
             documentType="editorial"
           />
+        </div>
+      )
+    case 'popupArt':
+      return (
+        <div key={index} className="h-screen">
+          <PopupArt />
         </div>
       )
   }

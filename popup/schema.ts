@@ -18,6 +18,7 @@ import carouselTwoUp from './schemas/sections/carousel-two-up'
 import emailSubscribe from './schemas/sections/email-subscribe'
 import flippedText from './schemas/sections/flipped-text'
 import fullBleedImage from './schemas/sections/full-bleed-image'
+import popupArt from './schemas/sections/popup-art'
 import quote from './schemas/sections/quote'
 import share from './schemas/sections/share'
 import textAndImage from './schemas/sections/text-and-image'
@@ -57,6 +58,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     quote,
     videoAndText,
     share,
+    popupArt,
 
     // Object types
     textLink,

@@ -1,4 +1,4 @@
-import { ProductPage } from 'components/pages/art/ProductPage'
+import { ProductPage } from 'components/pages/products/ProductPage'
 import { readToken } from 'lib/sanity.api'
 import { getClient } from 'lib/sanity.client'
 import { resolveHref } from 'lib/sanity.links'

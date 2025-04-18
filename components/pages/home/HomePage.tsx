@@ -22,25 +22,16 @@ export function HomePage({ page, settings, preview, loading }: HomePageProps) {
 
       <Layout settings={settings} preview={preview} loading={loading}>
         <div className="space-y-20">
-          {/* Header */}
-          {/* {title && <Header centered title={title} description={overview} />} */}
-
-          {/* Sections */}
-          {sections && sections.length > 0 && (
-            <div className="flex flex-col">
-              {sections.map((section, key) => (
-                <Section
-                  key={key}
-                  index={key}
-                  section={section}
-                  settings={settings}
-                />
-              ))}
-            </div>
-          )}
-
           {/* Workaround: scroll to top on route change */}
           <ScrollUp />
+          {sections?.map((section, index) => (
+            <Section
+              key={index}
+              index={index}
+              section={section}
+              settings={settings}
+            />
+          ))}
         </div>
       </Layout>
     </>

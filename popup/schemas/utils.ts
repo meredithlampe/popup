@@ -28,6 +28,9 @@ export const ALL_SECTION_TYPES = [
   defineArrayMember({
     type: 'share',
   }),
+  defineArrayMember({
+    type: 'popupArt',
+  }),
 ]
 
 export const ALL_PAGE_TYPES = [
